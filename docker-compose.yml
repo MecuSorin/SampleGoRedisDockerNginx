@@ -1,12 +1,41 @@
 version: '2'
 services:
-    web:
-        build: .
+    webtodel1:
+        container_name: todel1
+        image: todel
         ports:
-        - "5000:5000"
+        - "5000"
+        volumes:
+        - .:/go/src/github.com/mecusorin/SampleGoRedisDockerNginx/main
+        depends_on:
+        - redis
+    webtodel2:
+        container_name: todel2
+        image: todel
+        ports:
+        - "5000"
+        volumes:
+        - .:/go/src/github.com/mecusorin/SampleGoRedisDockerNginx/main
+        depends_on:
+        - redis
+    webtodel3:
+        container_name: todel3
+        image: todel
+        ports:
+        - "5000"
         volumes:
         - .:/go/src/github.com/mecusorin/SampleGoRedisDockerNginx/main
         depends_on:
         - redis
     redis:
         image: redis
+    loadbalancer:
+        container_name: todelLoadBalancer
+        image: loadbalancer-nginx
+        ports:
+        - "5000:80"
+        links:
+        - "webtodel1"
+        - "webtodel2"
+        - "webtodel3"
+        

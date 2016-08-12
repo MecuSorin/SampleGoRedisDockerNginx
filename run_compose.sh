@@ -34,6 +34,7 @@ then
     docker rm $(docker ps -qaf "since=tensorflow-udacity")
     docker rmi $(docker images -qf "since=composetest_web")
     docker build -t todel --rm .
+    docker build -t loadbalancer-nginx --rm nginx/
     docker-compose up
 else
     echo "Take care you can delete docker images and containers"
